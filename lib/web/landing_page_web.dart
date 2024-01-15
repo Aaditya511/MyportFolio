@@ -355,8 +355,8 @@ class _LandingPageWebState extends State<LandingPageWeb> {
   urlLancherButtons(String url,String imagePath) {
     return IconButton(
       icon: SvgPicture.asset(imagePath),
-      onPressed: () {
-        _launchUrl(url);
+      onPressed: () async {
+        await _launchUrl(url); // Add 'await' here
       },
     );
   }
