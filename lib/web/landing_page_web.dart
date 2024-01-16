@@ -14,14 +14,8 @@ class LandingPageWeb extends StatefulWidget {
 class _LandingPageWebState extends State<LandingPageWeb> {
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var deviceWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    var deviceHeight = MediaQuery.of(context).size.height;
+    var deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       drawer: Drawer(
@@ -52,9 +46,9 @@ class _LandingPageWebState extends State<LandingPageWeb> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                urlLancherButtons(Constants.LINKDIN,"assests/linkdin.svg"),
-                urlLancherButtons(Constants.GITHUB,"assests/github.svg"),
-                urlLancherButtons(Constants.MEDIUM,"assests/medium.svg")
+                urlLancherButtons(Constants.LINKDIN, "assests/linkdin.svg"),
+                urlLancherButtons(Constants.GITHUB, "assests/github.svg"),
+                urlLancherButtons(Constants.MEDIUM, "assests/medium.svg")
               ],
             ),
           ],
@@ -73,15 +67,30 @@ class _LandingPageWebState extends State<LandingPageWeb> {
             Spacer(
               flex: 3,
             ),
-            TabsWeb("HOME"),
+            TabsWeb(
+              title: "Home",
+              routes: Constants.homeRoutes,
+            ),
             Spacer(),
-            TabsWeb("Work"),
+            TabsWeb(
+              title: "Works",
+              routes: Constants.worksRoutes,
+            ),
             Spacer(),
-            TabsWeb("Blog"),
+            TabsWeb(
+              title: "Blog",
+              routes: Constants.blogRoutes,
+            ),
             Spacer(),
-            TabsWeb("About"),
+            TabsWeb(
+              title: "About",
+              routes: Constants.aboutRoutes,
+            ),
             Spacer(),
-            TabsWeb("Contact"),
+            TabsWeb(
+              title: "Contact",
+              routes: Constants.contactRoutes,
+            ),
             SizedBox(
               width: 30,
             )
@@ -110,14 +119,14 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                         ),
                       ),
                       padding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                       child: SansBold("Hello I'am", 18),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    SansBold("Aditya", 55),
-                    SansBold("Flutter and Android  Developer", 30),
+                    SansBold(Constants.name, 55),
+                    SansBold(Constants.job, 30),
                     SizedBox(
                       height: 15,
                     ),
@@ -237,6 +246,21 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           padding: EdgeInsets.all(7),
+                          child: Sans("FireBase", 18),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.tealAccent,
+                              style: BorderStyle.solid,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          padding: EdgeInsets.all(7),
                           child: Sans("MVVM", 18),
                         ),
                         SizedBox(
@@ -267,7 +291,7 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                     AnimatedWeb(
                       imagePath: "assests/app.png",
                       imageText: "App Development",
-                      fitX: BoxFit.contain,
+                      fit: BoxFit.contain,
                       reverse: true,
                     ),
                     AnimatedWeb(
@@ -293,43 +317,43 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                     Column(
                       children: [
                         TextForm(
-                          heading: "First Name",
+                          heading: Constants.firstName,
                           width: 350,
-                          hintText: "Please enter your first name",
+                          hintText: Constants.nameHint,
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         TextForm(
-                          heading: "Email",
+                          heading: Constants.email,
                           width: 350,
-                          hintText: "Please enter your Email Address",
+                          hintText: Constants.emailHint,
                         )
                       ],
                     ),
                     Column(
                       children: [
                         TextForm(
-                          heading: "Last Name",
+                          heading: Constants.lastName,
                           width: 350,
-                          hintText: "Please enter your first name",
+                          hintText: Constants.lastNameHint,
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         TextForm(
-                          heading: "Phone Number",
+                          heading: Constants.phoneNum,
                           width: 350,
-                          hintText: "Please enter your Email Address",
+                          hintText: Constants.phoneNumHint,
                         )
                       ],
                     ),
                   ],
                 ),
                 TextForm(
-                  heading: "Message",
+                  heading: Constants.message,
                   width: deviceWidth / 1.5,
-                  hintText: "Please enter your message",
+                  hintText: Constants.messageHint,
                   maxLines: 10,
                 ),
                 MaterialButton(
@@ -352,7 +376,7 @@ class _LandingPageWebState extends State<LandingPageWeb> {
     );
   }
 
-  urlLancherButtons(String url,String imagePath) {
+  urlLancherButtons(String url, String imagePath) {
     return IconButton(
       icon: SvgPicture.asset(imagePath),
       onPressed: () async {
@@ -360,11 +384,12 @@ class _LandingPageWebState extends State<LandingPageWeb> {
       },
     );
   }
-}
-
-Future<void> _launchUrl(String url) async {
-  final Uri _url = Uri.parse(url);
-  if (!await launchUrl(_url)) {
-    throw Exception('Could not launch $_url');
+  Future<void> _launchUrl(String url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }
+
+

@@ -1,10 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+class TabsMobileApp extends StatefulWidget {
+  final text;
+  final route;
+  const TabsMobileApp({super.key,@required this.text, @required this.route});
+
+  @override
+  State<TabsMobileApp> createState() => _TabsMobileAppState();
+}
+
+class _TabsMobileAppState extends State<TabsMobileApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(onPressed: (){},
+      elevation: 20.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      height: 50.0 ,
+      minWidth: 200.0,
+      color: Colors.black,
+      child: Text(widget.text,
+      style: GoogleFonts.openSans(
+        fontSize: 20.0,
+        color: Colors.white
+      ),),
+    );
+  }
+}
+
+
+
+
 class TabsWeb extends StatefulWidget {
   final title;
+  final routes;
 
-  const TabsWeb(this.title, {super.key});
+  const TabsWeb( {super.key, this.title, this.routes});
 
   @override
   State<TabsWeb> createState() => _TabsWebState();
@@ -15,35 +48,40 @@ class _TabsWebState extends State<TabsWeb> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() {
-          isSelected = true;
-        });
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(context).pushNamed(widget.routes);
       },
-      onExit: (_) {
-        setState(() {
-          isSelected = false;
-        });
-      },
-      child: AnimatedDefaultTextStyle(
-        duration: Duration(milliseconds: 100),
-        curve: Curves.bounceInOut,
-        style: isSelected
-            ? GoogleFonts.oswald(
-                shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
-                color: Colors.transparent,
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-                decoration: TextDecoration.underline,
-                decorationThickness: 2,
-                decorationColor: Colors.tealAccent)
-            : GoogleFonts.oswald(
-                color: Colors.black,
-                fontSize: 24.0,
-              ),
-        child: Text(
-          widget.title,
+      child: MouseRegion(
+        onEnter: (_) {
+          setState(() {
+            isSelected = true;
+          });
+        },
+        onExit: (_) {
+          setState(() {
+            isSelected = false;
+          });
+        },
+        child: AnimatedDefaultTextStyle(
+          duration: Duration(milliseconds: 100),
+          curve: Curves.bounceInOut,
+          style: isSelected
+              ? GoogleFonts.oswald(
+                  shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
+                  color: Colors.transparent,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24.0,
+                  decoration: TextDecoration.underline,
+                  decorationThickness: 2,
+                  decorationColor: Colors.tealAccent)
+              : GoogleFonts.oswald(
+                  color: Colors.black,
+                  fontSize: 24.0,
+                ),
+          child: Text(
+            widget.title,
+          ),
         ),
       ),
     );
@@ -136,9 +174,11 @@ class TextForm extends StatelessWidget {
 class AnimatedWeb extends StatefulWidget {
   final imagePath;
   final imageText;
-  final fitX;
+  final fit;
   final reverse;
-  const AnimatedWeb({super.key,@required this.imagePath, @required this.imageText, this.fitX, this.reverse});
+  final width ;
+  final height;
+  const AnimatedWeb({super.key,@required this.imagePath, @required this.imageText, this.fit, this.reverse, this.width, this.height});
 
   @override
   State<AnimatedWeb> createState() => _AnimatedWebState();
@@ -175,14 +215,15 @@ class _AnimatedWebState extends State<AnimatedWeb> with SingleTickerProviderStat
         children: [
           Image.asset(
             widget.imagePath,
-            height: 200,
-            width: 200,
-            fit:widget.fitX == null?null:widget.fitX,
+            height: widget.height == null?200:widget.height,
+            width: widget.width == null?200:widget.width,
+            fit:widget.fit == null?null:widget.fit,
           ),
           SizedBox(
             height: 10,
           ),
-          SansBold(widget.imageText, 18)
+          SansBold(widget.imageText, 18),
+
         ],
       ),
     ),
