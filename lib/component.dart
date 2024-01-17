@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 class TabsMobileApp extends StatefulWidget {
   final text;
   final route;
-  const TabsMobileApp({super.key,@required this.text, @required this.route});
+
+  const TabsMobileApp({super.key, @required this.text, @required this.route});
 
   @override
   State<TabsMobileApp> createState() => _TabsMobileAppState();
@@ -13,31 +14,30 @@ class TabsMobileApp extends StatefulWidget {
 class _TabsMobileAppState extends State<TabsMobileApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(onPressed: (){},
+    return MaterialButton(
+      onPressed: () {
+        Navigator.of(context).pushNamed(widget.route);
+      },
       elevation: 20.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
       ),
-      height: 50.0 ,
+      height: 50.0,
       minWidth: 200.0,
       color: Colors.black,
-      child: Text(widget.text,
-      style: GoogleFonts.openSans(
-        fontSize: 20.0,
-        color: Colors.white
-      ),),
+      child: Text(
+        widget.text,
+        style: GoogleFonts.openSans(fontSize: 20.0, color: Colors.white),
+      ),
     );
   }
 }
-
-
-
 
 class TabsWeb extends StatefulWidget {
   final title;
   final routes;
 
-  const TabsWeb( {super.key, this.title, this.routes});
+  const TabsWeb({super.key, this.title, this.routes});
 
   @override
   State<TabsWeb> createState() => _TabsWebState();
@@ -49,7 +49,7 @@ class _TabsWebState extends State<TabsWeb> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.of(context).pushNamed(widget.routes);
       },
       child: MouseRegion(
@@ -91,7 +91,8 @@ class _TabsWebState extends State<TabsWeb> {
 class SansBold extends StatelessWidget {
   final text;
   final size;
-  const SansBold(this.text,this.size,{super.key});
+
+  const SansBold(this.text, this.size, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +109,8 @@ class SansBold extends StatelessWidget {
 class Sans extends StatelessWidget {
   final text;
   final size;
-  const Sans(this.text,this.size,{super.key});
+
+  const Sans(this.text, this.size, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -127,20 +129,31 @@ class TextForm extends StatelessWidget {
   final width;
   final hintText;
   final maxLines;
-  const TextForm({super.key, @required this.heading,@required this.width, @required this.hintText, this.maxLines});
+
+  const TextForm(
+      {super.key,
+      @required this.heading,
+      @required this.width,
+      @required this.hintText,
+      this.maxLines});
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Sans(heading, 16.0,),
-        SizedBox(height: 5,),
+        Sans(
+          heading,
+          16.0,
+        ),
+        SizedBox(
+          height: 5,
+        ),
         Column(
           children: [
             SizedBox(
               child: TextFormField(
-                maxLines: maxLines == null?null:maxLines,
+                maxLines: maxLines == null ? null : maxLines,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.teal),
@@ -166,8 +179,7 @@ class TextForm extends StatelessWidget {
           ],
         ),
       ],
-    )
-    ;
+    );
   }
 }
 
@@ -176,23 +188,34 @@ class AnimatedWeb extends StatefulWidget {
   final imageText;
   final fit;
   final reverse;
-  final width ;
+  final width;
+
   final height;
-  const AnimatedWeb({super.key,@required this.imagePath, @required this.imageText, this.fit, this.reverse, this.width, this.height});
+
+  const AnimatedWeb(
+      {super.key,
+      @required this.imagePath,
+      this.imageText,
+      this.fit,
+      this.reverse,
+      this.width,
+      this.height});
 
   @override
   State<AnimatedWeb> createState() => _AnimatedWebState();
 }
 
-class _AnimatedWebState extends State<AnimatedWeb> with SingleTickerProviderStateMixin {
-  late AnimationController _controller  = AnimationController(vsync: this,
-  duration: Duration(seconds: 4),)..repeat(reverse: true);
+class _AnimatedWebState extends State<AnimatedWeb>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: Duration(seconds: 4),
+  )..repeat(reverse: true);
 
   late Animation<Offset> _animation = Tween(
     begin: widget.reverse == true ? Offset(0, 0.08) : Offset.zero,
     end: widget.reverse == true ? Offset.zero : Offset(0, 0.08),
   ).animate(_controller);
-
 
   @override
   void dispose() {
@@ -202,36 +225,51 @@ class _AnimatedWebState extends State<AnimatedWeb> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(position: _animation,
-    child:
-    Card(
-      elevation: 20,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.tealAccent),
-        borderRadius: BorderRadius.circular(15),
+    return SlideTransition(
+      position: _animation,
+      child: Card(
+        color: Colors.white,
+        elevation: 20,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.tealAccent),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        shadowColor: Colors.tealAccent,
+        child: Column(
+          children: [
+            Image.asset(
+              widget.imagePath,
+              height: widget.height == null ? 200 : widget.height,
+              width: widget.width == null ? 200 : widget.width,
+              fit: widget.fit == null ? null : widget.fit,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            widget.imageText == null
+                ? SizedBox()
+                : SansBold(widget.imageText, 18),
+          ],
+        ),
       ),
-      shadowColor: Colors.tealAccent,
-      child: Column(
-        children: [
-          Image.asset(
-            widget.imagePath,
-            height: widget.height == null?200:widget.height,
-            width: widget.width == null?200:widget.width,
-            fit:widget.fit == null?null:widget.fit,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          SansBold(widget.imageText, 18),
-
-        ],
-      ),
-    ),
-
     );
   }
 }
 
+class AbleCustom extends StatelessWidget {
+  final text;
+  final size;
+  final color;
+  final fontWeight;
+  const AbleCustom({super.key,@required this.text,@required this.size, this.color, this.fontWeight});
 
-
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,style: GoogleFonts.abel(
+    fontSize: size,
+      color: color == null?Colors.black:color,
+        fontWeight: fontWeight == null?FontWeight.normal:fontWeight
+    ),);
+  }
+}
 

@@ -40,23 +40,23 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
                 child: Image.asset("assests/profileround.png"),
               ),
             ),
-            TabsMobileApp(text: "Home", route: '/'),
+            TabsMobileApp(text: "Home", route: Constants.homeRoutes),
             SizedBox(
               height: 20.0,
             ),
-            TabsMobileApp(text: "Work", route: '/work'),
+            TabsMobileApp(text: "Work", route: Constants.worksRoutes),
             SizedBox(
               height: 20.0,
             ),
-            TabsMobileApp(text: "Blog", route: '/blog'),
+            TabsMobileApp(text: "Blog", route: Constants.blogRoutes),
             SizedBox(
               height: 20.0,
             ),
-            TabsMobileApp(text: "About", route: '/about'),
+            TabsMobileApp(text: "About", route: Constants.aboutRoutes),
             SizedBox(
               height: 20.0,
             ),
-            TabsMobileApp(text: "Contact", route: '/contact'),
+            TabsMobileApp(text: "Contact", route: Constants.contactRoutes),
             SizedBox(
               height: 20.0,
             ),
@@ -71,11 +71,11 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
           ],
         ),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Column(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: ListView(
+          children: [
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
@@ -113,6 +113,7 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
                   height: 10,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(Icons.email),
                     SizedBox(
@@ -147,201 +148,201 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
                 ),
               ],
             ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          // about me section
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SansBold("About Me", 40),
-              SizedBox(
-                height: 15,
-              ),
-              Sans(Constants.My_Intro, 18),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.tealAccent,
-                        style: BorderStyle.solid,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    padding: EdgeInsets.all(7),
-                    child: Sans("Flutter", 18),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.tealAccent,
-                        style: BorderStyle.solid,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    padding: EdgeInsets.all(7),
-                    child: Sans("Android Native", 18),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.tealAccent,
-                        style: BorderStyle.solid,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    padding: EdgeInsets.all(7),
-                    child: Sans("FireBase", 18),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.tealAccent,
-                        style: BorderStyle.solid,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    padding: EdgeInsets.all(7),
-                    child: Sans("MVVM", 18),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  )
-                ],
-              )
-            ],
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          // what i do section
-          Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            SizedBox(
+              height: 40,
+            ),
+            // about me section
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SansBold(Constants.WHAT_I_DO, 40),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                SansBold("About Me", 40),
+                SizedBox(
+                  height: 15,
+                ),
+                Sans(Constants.My_Intro, 18),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
                   children: [
-                    AnimatedWeb(
-                      imagePath: "assests/webL.png",
-                      imageText: "Web Development",
-                      width: deviceWidth / 2,
-                      height: 150,
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.tealAccent,
+                          style: BorderStyle.solid,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      padding: EdgeInsets.all(7),
+                      child: Sans("Flutter", 18),
                     ),
                     SizedBox(
-                      height: 30,
+                      width: 5,
                     ),
-                    AnimatedWeb(
-                      imagePath: "assests/app.png",
-                      imageText: "App Development",
-                      fit: BoxFit.contain,
-                      reverse: true,
-                      width: deviceWidth / 2,
-                      height: 150,
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.tealAccent,
+                          style: BorderStyle.solid,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      padding: EdgeInsets.all(7),
+                      child: Sans("Android Native", 18),
                     ),
                     SizedBox(
-                      height: 30,
+                      width: 5,
                     ),
-                    AnimatedWeb(
-                      imagePath: "assests/firebase.png",
-                      imageText: "Firebase",
-                      width: deviceWidth / 2,
-                      height: 150,
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.tealAccent,
+                          style: BorderStyle.solid,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      padding: EdgeInsets.all(7),
+                      child: Sans("FireBase", 18),
                     ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.tealAccent,
+                          style: BorderStyle.solid,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      padding: EdgeInsets.all(7),
+                      child: Sans("MVVM", 18),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    )
                   ],
                 )
               ],
             ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          // Contact me section
-          Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SansBold("Contact Me", 40),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: TextForm(
-                    heading: Constants.firstName,
-                    width: deviceWidth / 1.5,
-                    hintText: Constants.nameHint,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: TextForm(
-                    heading: Constants.lastName,
-                    width: deviceWidth / 1.5,
-                    hintText: Constants.lastNameHint,
-
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: TextForm(
-                    heading: Constants.phoneNum,
-                    width: deviceWidth / 1.5,
-                    hintText: Constants.phoneNumHint,
-
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: TextForm(
-                    heading: Constants.email,
-                    width: deviceWidth / 1.5,
-                    hintText: Constants.emailHint,
-
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: TextForm(
-                    heading: "Message",
-                    width: deviceWidth / 1.5,
-                    hintText: "Please enter your message",
-                    maxLines: 10,
-                  ),
-                ),
-                MaterialButton(
-                  onPressed: () {},
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  height: 60.0,
-                  minWidth: 200,
-                  color: Colors.tealAccent,
-                  child: SansBold("Submit", 20.0),
-                ),
-              ],
+            SizedBox(
+              height: 40,
             ),
-          ),
-          SizedBox(height: 20.0),
-        ],
+            // what i do section
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SansBold(Constants.WHAT_I_DO, 40),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      AnimatedWeb(
+                        imagePath: "assests/webL.png",
+                        imageText: "Web Development",
+                        width: deviceWidth / 2,
+                        height: 150,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      AnimatedWeb(
+                        imagePath: "assests/app.png",
+                        imageText: "App Development",
+                        fit: BoxFit.contain,
+                        reverse: true,
+                        width: deviceWidth / 2,
+                        height: 150,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      AnimatedWeb(
+                        imagePath: "assests/firebase.png",
+                        imageText: "Firebase",
+                        width: deviceWidth / 2,
+                        height: 150,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            // Contact me section
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SansBold("Contact Me", 40),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: TextForm(
+                      heading: Constants.firstName,
+                      width: deviceWidth / 1.5,
+                      hintText: Constants.nameHint,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: TextForm(
+                      heading: Constants.lastName,
+                      width: deviceWidth / 1.5,
+                      hintText: Constants.lastNameHint,
+
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: TextForm(
+                      heading: Constants.phoneNum,
+                      width: deviceWidth / 1.5,
+                      hintText: Constants.phoneNumHint,
+
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: TextForm(
+                      heading: Constants.email,
+                      width: deviceWidth / 1.5,
+                      hintText: Constants.emailHint,
+
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: TextForm(
+                      heading: "Message",
+                      width: deviceWidth / 1.5,
+                      hintText: "Please enter your message",
+                      maxLines: 10,
+                    ),
+                  ),
+                  MaterialButton(
+                    onPressed: () {},
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    height: 60.0,
+                    minWidth: 200,
+                    color: Colors.tealAccent,
+                    child: SansBold("Submit", 20.0),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20.0),
+          ],
+        ),
       ),
     );
   }
@@ -357,11 +358,12 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
       },
     );
   }
+  Future<void> _launchUrl(String url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
 }
 
-Future<void> _launchUrl(String url) async {
-  final Uri _url = Uri.parse(url);
-  if (!await launchUrl(_url)) {
-    throw Exception('Could not launch $_url');
-  }
-}

@@ -5,17 +5,18 @@ import 'package:url_launcher/url_launcher.dart';
 import '../component.dart';
 import '../others/Constansts.dart';
 
-class ContactWeb extends StatefulWidget {
-  const ContactWeb({super.key});
+class WorksWebPage extends StatefulWidget {
+  const WorksWebPage({super.key});
 
   @override
-  State<ContactWeb> createState() => _ContactWebState();
+  State<WorksWebPage> createState() => _WorksWebPageState();
 }
 
-class _ContactWebState extends State<ContactWeb> {
+class _WorksWebPageState extends State<WorksWebPage> {
   @override
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       drawer: Drawer(
         backgroundColor: Colors.white,
@@ -100,7 +101,7 @@ class _ContactWebState extends State<ContactWeb> {
               ),
               flexibleSpace: FlexibleSpaceBar(
                 background: Image.asset(
-                  "assests/contact_image.jpg",
+                  "assests/works.jpg",
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.high,
                 ),
@@ -108,80 +109,44 @@ class _ContactWebState extends State<ContactWeb> {
             )
           ];
         },
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(height: 20,),
-              SansBold("Contact Me", 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      TextForm(
-                        heading: Constants.firstName,
-                        width: 350,
-                        hintText: Constants.nameHint,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      TextForm(
-                        heading: Constants.email,
-                        width: 350,
-                        hintText: Constants.emailHint,
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      TextForm(
-                        heading: Constants.lastName,
-                        width: 350,
-                        hintText: Constants.lastNameHint,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      TextForm(
-                        heading: Constants.phoneNum,
-                        width: 350,
-                        hintText: Constants.phoneNumHint,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 15,),
-              TextForm(
-                heading: Constants.message,
-                width: deviceWidth / 1.5,
-                hintText: Constants.messageHint,
-                maxLines: 10,
-              ),
-              SizedBox(height: 20,),
-              MaterialButton(
-                onPressed: () {},
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+        body:
+        ListView(
+          children: [
+            SizedBox(height: 30,),
+            Center(child: SansBold("Works", 40)),
+            SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment:MainAxisAlignment.spaceEvenly ,
+              children: [
+                AnimatedWeb(
+                  imagePath: "assests/myss.png",
+                  width: 300,
+                  height: 200,
                 ),
-                height: 60.0,
-                minWidth: 200,
-                color: Colors.tealAccent,
-                child: SansBold("Submit", 20.0),
-              ),
-              SizedBox(height: 20,),
+                SizedBox(width: 30,),
+                Container(
+                  width: deviceWidth/4,
+                  child: Expanded(
+                    child: Column(
+                      children: [
+                        SansBold("Portfolio", 18),
+                        SizedBox(height: 20,),
+                        Sans(Constants.portfolioDetails, 12),
+                      ],
+                    ),
+                  ),
+                )
 
-            ],
-          ),
 
+              ],
+            )
+
+          ],
         ),
       ),
     );
-  }
 
+  }
   urlLancherButtons(String url, String imagePath) {
     return IconButton(
       icon: SvgPicture.asset(imagePath),
