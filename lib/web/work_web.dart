@@ -109,44 +109,45 @@ class _WorksWebPageState extends State<WorksWebPage> {
             )
           ];
         },
-        body:
-        ListView(
+        body: ListView(
           children: [
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             Center(child: SansBold("Works", 40)),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Row(
-              mainAxisAlignment:MainAxisAlignment.spaceEvenly ,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 AnimatedWeb(
                   imagePath: "assests/myss.png",
                   width: 300,
                   height: 200,
                 ),
-                SizedBox(width: 30,),
-                Container(
-                  width: deviceWidth/4,
-                  child: Expanded(
-                    child: Column(
-                      children: [
-                        SansBold("Portfolio", 18),
-                        SizedBox(height: 20,),
-                        Sans(Constants.portfolioDetails, 12),
-                      ],
-                    ),
+                SizedBox(
+                  width: 90,
+                ),
+                Flexible(
+                  child: Column(
+                    children: [
+                      SansBold("Portfolio", 18),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Sans(Constants.portfolioDetails, 12),
+                    ],
                   ),
                 )
-
-
               ],
             )
-
           ],
         ),
       ),
     );
-
   }
+
   urlLancherButtons(String url, String imagePath) {
     return IconButton(
       icon: SvgPicture.asset(imagePath),
