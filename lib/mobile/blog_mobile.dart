@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,12 +96,27 @@ class _BlogMobileState extends State<BlogMobile> {
                 )
               ];
             },
-            body: ListView(
-              children: [
-                BlogPost(),
+            body:
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection("Aricles")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                    return ListView.builder(itemCount: snapshot.data?.docs.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
+                          return BlogPost(title: documentSnapshot["title"], body: documentSnapshot["body"]);
+                        });
+                  }
+                  else{
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }
+            )
 
-              ],
-            )),
+        ),
       ),
     );
   }
@@ -123,7 +139,9 @@ class _BlogMobileState extends State<BlogMobile> {
 }
 
 class BlogPost extends StatefulWidget {
-  const BlogPost({super.key});
+  final title;
+  final body;
+  const BlogPost({super.key, @required this.title,@required this.body});
 
   @override
   State<BlogPost> createState() => _BlogPostState();
@@ -162,7 +180,7 @@ class _BlogPostState extends State<BlogPost> {
                     borderRadius: BorderRadius.circular(3),
                   ),
                   child: AbleCustom(
-                    text: Constants.dummyBlogWhoIsDash,
+                    text: widget.title.toString(),
                     size: 25,
                     color: Colors.white,
                   ),
@@ -181,7 +199,7 @@ class _BlogPostState extends State<BlogPost> {
               ],
             ),
             SizedBox(height: 7,),
-            Text(Constants.dummyBlog,
+            Text(widget.body.toString(),
               style: GoogleFonts.openSans(fontSize: 15),
               maxLines: expand==true?null:3,
               overflow: expand== true?TextOverflow.visible:TextOverflow.ellipsis ,)
