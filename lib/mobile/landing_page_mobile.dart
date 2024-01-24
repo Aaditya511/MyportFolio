@@ -13,6 +13,12 @@ class LandingPageMobile extends StatefulWidget {
 }
 
 class _LandingPageMobileState extends State<LandingPageMobile> {
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
@@ -278,66 +284,108 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
             ),
             // Contact me section
             Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SansBold("Contact Me", 40),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: TextForm(
-                      heading: Constants.firstName,
-                      width: deviceWidth / 1.5,
-                      hintText: Constants.nameHint,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SansBold("Contact Me", 40),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextForm(
+                        heading: Constants.firstName,
+                        width: deviceWidth / 1.5,
+                        hintText: Constants.nameHint,
+                        controller: firstNameController,
+                        validator:(text){
+                          if(text.toString().isEmpty){
+                            return "Error";
+                          }
+                        } ,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: TextForm(
-                      heading: Constants.lastName,
-                      width: deviceWidth / 1.5,
-                      hintText: Constants.lastNameHint,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextForm(
+                        heading: Constants.lastName,
+                        width: deviceWidth / 1.5,
+                        hintText: Constants.lastNameHint,
+                        controller: lastNameController,
+                        validator:(text){
+                          if(text.toString().isEmpty){
+                            return "Error";
+                          }
+                        } ,
 
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: TextForm(
-                      heading: Constants.phoneNum,
-                      width: deviceWidth / 1.5,
-                      hintText: Constants.phoneNumHint,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextForm(
+                        heading: Constants.phoneNum,
+                        width: deviceWidth / 1.5,
+                        hintText: Constants.phoneNumHint,
 
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: TextForm(
-                      heading: Constants.email,
-                      width: deviceWidth / 1.5,
-                      hintText: Constants.emailHint,
+                        controller: phoneNumberController,
+                        validator:(text){
+                          if(text.toString().isEmpty){
+                            return "Error";
+                          }
+                        } ,
 
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: TextForm(
-                      heading: "Message",
-                      width: deviceWidth / 1.5,
-                      hintText: "Please enter your message",
-                      maxLines: 10,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextForm(
+                        heading: Constants.email,
+                        width: deviceWidth / 1.5,
+                        hintText: Constants.emailHint,
+
+                        controller: emailController,
+                        validator:(text){
+                          if(text.toString().isEmpty){
+                            return "Error";
+                          }
+                        } ,
+
+                      ),
                     ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {},
-                    elevation: 20,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: TextForm(
+                        heading: "Message",
+                        width: deviceWidth / 1.5,
+                        hintText: "Please enter your message",
+                        maxLines: 10,
+                        controller: messageController,
+                        validator:(text){
+                          if(text.toString().isEmpty){
+                            return "Error";
+                          }
+                        } ,
+                      ),
                     ),
-                    height: 60.0,
-                    minWidth: 200,
-                    color: Colors.tealAccent,
-                    child: SansBold("Submit", 20.0),
-                  ),
-                ],
+                    MaterialButton(
+                      onPressed: () async{
+                        final addData = AddDataFireStore();
+                        if(formKey.currentState!.validate()){
+                          await addData.addResponse(firstNameController.text, lastNameController.text, emailController.text, phoneNumberController.text, messageController.text);
+                          formKey.currentState!.reset();
+                          DailogError(context);
+                        }
+                      },
+                      elevation: 20,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      height: 60.0,
+                      minWidth: 200,
+                      color: Colors.tealAccent,
+                      child: SansBold("Submit", 20.0),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 20.0),

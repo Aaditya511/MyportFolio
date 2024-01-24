@@ -65,59 +65,54 @@ class _BlogWebState extends State<BlogWeb> {
           ),
         ),
         body: NestedScrollView(
-            headerSliverBuilder: (BuildContext contxt, bool innerBoxScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  expandedHeight: 500,
-                  backgroundColor: Colors.white,
-                  iconTheme: IconThemeData(size: 35, color: Colors.black),
-                  flexibleSpace: FlexibleSpaceBar(
-                    title: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 7),
-                      child: AbleCustom(
-                        text: Constants.welcomeBlog,
-                        size: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+          headerSliverBuilder: (BuildContext contxt, bool innerBoxScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                expandedHeight: 500,
+                backgroundColor: Colors.white,
+                iconTheme: IconThemeData(size: 35, color: Colors.black),
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(3),
                     ),
-                    background: Image.asset(
-                      'assests/blog.jpg',
-                      fit: BoxFit.cover,
+                    padding: EdgeInsets.symmetric(horizontal: 7),
+                    child: AbleCustom(
+                      text: Constants.welcomeBlog,
+                      size: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                )
-              ];
-            },
-            body:
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection("Aricles")
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if(snapshot.hasData){
-                    return ListView.builder(itemCount: snapshot.data?.docs.length,
-                        itemBuilder: (BuildContext context, int index) {
-                      DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
-                          return BlogPost(title: documentSnapshot["title"], body: documentSnapshot["body"]);
-                        });
-                  }
-                  else{
-                 return Center(
+                  background: Image.asset(
+                    'assests/blog.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              )
+            ];
+          },
+          body: StreamBuilder<QuerySnapshot>(
+              stream:
+                  FirebaseFirestore.instance.collection("Aricles").snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      itemCount: snapshot.data?.docs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        DocumentSnapshot documentSnapshot =
+                            snapshot.data!.docs[index];
+                        return BlogPost(
+                            title: documentSnapshot["title"],
+                            body: documentSnapshot["body"]);
+                      });
+                } else {
+                  return Center(
                     child: CircularProgressIndicator(),
                   );
-                  }
                 }
-            )
-          /* ListView(
-              children: [
-                BlogPost(),
-
-              ],
-            ),*/
+              }),
         ),
       ),
     );
@@ -154,8 +149,10 @@ class _BlogPostState extends State<BlogPost> {
   bool expand = false;
 
   getArticles() async {
-    await FirebaseFirestore.instance.collection("Aricles").get().then((
-        querySnapShot) {
+    await FirebaseFirestore.instance
+        .collection("Aricles")
+        .get()
+        .then((querySnapShot) {
       querySnapShot.docs.reversed.forEach((element) {
         // print(element.data()["title"].toString());
       });
@@ -163,9 +160,8 @@ class _BlogPostState extends State<BlogPost> {
   }
 
   streamArticles() async {
-    await for (var snapshots in
-    FirebaseFirestore.instance.collection("Aricles").snapshots()
-    ) {
+    await for (var snapshots
+        in FirebaseFirestore.instance.collection("Aricles").snapshots()) {
       print(snapshots);
       for (var title in snapshots.docs) {
         print(title.data()["title"]);
@@ -179,7 +175,6 @@ class _BlogPostState extends State<BlogPost> {
     streamArticles();
     super.initState();
   }*/
-
 
   @override
   Widget build(BuildContext context) {
@@ -229,12 +224,16 @@ class _BlogPostState extends State<BlogPost> {
                 ),
               ],
             ),
-            SizedBox(height: 7,),
-            Text(widget.body.toString(),
+            SizedBox(
+              height: 7,
+            ),
+            Text(
+              widget.body.toString(),
               style: GoogleFonts.openSans(fontSize: 15),
               maxLines: expand == true ? null : 3,
-              overflow: expand == true ? TextOverflow.visible : TextOverflow
-                  .ellipsis,)
+              overflow:
+                  expand == true ? TextOverflow.visible : TextOverflow.ellipsis,
+            )
           ],
         ),
       ),

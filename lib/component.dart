@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 
 class TabsMobileApp extends StatefulWidget {
   final text;
@@ -129,13 +131,17 @@ class TextForm extends StatelessWidget {
   final width;
   final hintText;
   final maxLines;
+  final controller;
+  final validator;
 
   const TextForm(
       {super.key,
       @required this.heading,
       @required this.width,
       @required this.hintText,
-      this.maxLines});
+      this.maxLines,
+        @required this.controller,
+        @required this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -153,8 +159,16 @@ class TextForm extends StatelessWidget {
           children: [
             SizedBox(
               child: TextFormField(
+                controller: controller,
+                validator: validator,
                 maxLines: maxLines == null ? null : maxLines,
                 decoration: InputDecoration(
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15.0),
+                    ),
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.teal),
                     borderRadius: BorderRadius.all(
@@ -261,15 +275,53 @@ class AbleCustom extends StatelessWidget {
   final size;
   final color;
   final fontWeight;
-  const AbleCustom({super.key,@required this.text,@required this.size, this.color, this.fontWeight});
+
+  const AbleCustom(
+      {super.key,
+      @required this.text,
+      @required this.size,
+      this.color,
+      this.fontWeight});
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,style: GoogleFonts.abel(
-    fontSize: size,
-      color: color == null?Colors.black:color,
-        fontWeight: fontWeight == null?FontWeight.normal:fontWeight
-    ),);
+    return Text(
+      text,
+      style: GoogleFonts.abel(
+          fontSize: size,
+          color: color == null ? Colors.black : color,
+          fontWeight: fontWeight == null ? FontWeight.normal : fontWeight),
+    );
   }
 }
 
+class AddDataFireStore {
+  var logger = Logger();
+  CollectionReference response =
+      FirebaseFirestore.instance.collection("Messages");
+
+  Future<void> addResponse(final firstName, final lastName, final email,
+      final phone, final message) async {
+    return response
+        .add({
+          "First Name": firstName,
+          "Last Name": lastName,
+          "Email": email,
+          "Phone Number": phone,
+          "Message": message,
+        })
+        .then((value) => logger.d("Success"))
+        .catchError((error) => logger.d(error));
+  }
+}
+
+Future DailogError(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            title: SansBold("Data Sbmitted", 20),
+          ));
+}

@@ -8,7 +8,7 @@ class Constants {
   static const String job = 'Flutter and Android Developer';
   static const String firstName = 'First Name';
   static const String nameHint ='Please enter your first name';
-  static const String lastName ='Last first name';
+  static const String lastName ='Last name';
   static const String lastNameHint ='Please enter your last name';
   static const String phoneNum ='Phone Number';
   static const String phoneNumHint ='Please enter your phone number';

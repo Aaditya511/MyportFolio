@@ -12,6 +12,13 @@ class LandingPageWeb extends StatefulWidget {
 }
 
 class _LandingPageWebState extends State<LandingPageWeb> {
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var deviceHeight = MediaQuery.of(context).size.height;
@@ -306,68 +313,110 @@ class _LandingPageWebState extends State<LandingPageWeb> {
 
           //Fourth Page Start Here
           Container(
-            height: deviceHeight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SansBold("Contact Me", 40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        TextForm(
-                          heading: Constants.firstName,
-                          width: 350,
-                          hintText: Constants.nameHint,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        TextForm(
-                          heading: Constants.email,
-                          width: 350,
-                          hintText: Constants.emailHint,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        TextForm(
-                          heading: Constants.lastName,
-                          width: 350,
-                          hintText: Constants.lastNameHint,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        TextForm(
-                          heading: Constants.phoneNum,
-                          width: 350,
-                          hintText: Constants.phoneNumHint,
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                TextForm(
-                  heading: Constants.message,
-                  width: deviceWidth / 1.5,
-                  hintText: Constants.messageHint,
-                  maxLines: 10,
-                ),
-                MaterialButton(
-                  onPressed: () {},
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SansBold("Contact Me", 40),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          TextForm(
+                            heading: Constants.firstName,
+                            width: 350,
+                            controller: firstNameController,
+                            validator:(text){
+                              if(text.toString().isEmpty){
+                                return "Error";
+                              }
+                            } ,
+                            hintText: Constants.nameHint,
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          TextForm(
+                            heading: Constants.email,
+                            controller: emailController,
+                            width: 350,
+                            validator:(text){
+                              if(text.toString().isEmpty){
+                                return "Error";
+                              }
+                            },
+                            hintText: Constants.emailHint,
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          TextForm(
+                            heading: Constants.lastName,
+                            controller: lastNameController,
+                            width: 350,
+                            validator:(text){
+                              if(text.toString().isEmpty){
+                                return "Error";
+                              }
+                            },
+                            hintText: Constants.lastNameHint,
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          TextForm(
+                            heading: Constants.phoneNum,
+                            width: 350,
+                            validator:(text){
+                              if(text.toString().isEmpty){
+                                return "Error";
+                              }
+                            },
+                            controller: phoneNumberController,
+                            hintText: Constants.phoneNumHint,
+                          )
+                        ],
+                      ),
+                    ],
                   ),
-                  height: 60.0,
-                  minWidth: 200,
-                  color: Colors.tealAccent,
-                  child: SansBold("Submit", 20.0),
-                ),
-              ],
+                  TextForm(
+                    heading: Constants.message,
+                    width: deviceWidth / 1.5,
+                    controller: messageController,
+                    validator:(text){
+                      if(text.toString().isEmpty){
+                        return "Error";
+                      }
+                    },
+                    hintText: Constants.messageHint,
+                    maxLines: 10,
+                  ),
+                  SizedBox(height: 10.0),
+                  MaterialButton(
+                    onPressed: ()
+                    async{
+                      final addData = AddDataFireStore();
+                      if(formKey.currentState!.validate()){
+                        await addData.addResponse(firstNameController.text, lastNameController.text, emailController.text, phoneNumberController.text, messageController.text);
+                        formKey.currentState!.reset();
+                        DailogError(context);
+                      }
+
+                    },
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    height: 60.0,
+                    minWidth: 200,
+                    color: Colors.tealAccent,
+                    child: SansBold("Submit", 20.0),
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: 20.0),
@@ -390,6 +439,7 @@ class _LandingPageWebState extends State<LandingPageWeb> {
       throw Exception('Could not launch $_url');
     }
   }
+
 }
 
 
