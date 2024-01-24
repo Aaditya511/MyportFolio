@@ -322,6 +322,6 @@ Future DailogError(BuildContext context) {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            title: SansBold("Data Sbmitted", 20),
+            title: SansBold("Data Submited", 20),
           ));
 }
