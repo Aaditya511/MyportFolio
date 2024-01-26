@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_portfolio/component.dart';
+import 'package:my_portfolio/others/component.dart';
 import 'package:my_portfolio/others/Constansts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 class LandingPageWeb extends StatefulWidget {
   const LandingPageWeb({super.key});
@@ -25,42 +24,8 @@ class _LandingPageWebState extends State<LandingPageWeb> {
     var deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 75,
-              backgroundColor: Colors.tealAccent,
-              child: CircleAvatar(
-                radius: 72,
-                backgroundColor: Colors.black,
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundColor: Colors.white,
-                  backgroundImage: AssetImage("assests/profile.jpg"),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15.0,
-            ),
-            SansBold("Aditya", 18),
-            SizedBox(
-              height: 15.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                urlLancherButtons(Constants.LINKDIN, "assests/linkdin.svg"),
-                urlLancherButtons(Constants.GITHUB, "assests/github.svg"),
-                urlLancherButtons(Constants.MEDIUM, "assests/medium.svg")
-              ],
-            ),
-          ],
-        ),
-      ),
+      drawer:
+      DrawerWeb(),
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -313,111 +278,8 @@ class _LandingPageWebState extends State<LandingPageWeb> {
 
           //Fourth Page Start Here
           Container(
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SansBold("Contact Me", 40),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          TextForm(
-                            heading: Constants.firstName,
-                            width: 350,
-                            controller: firstNameController,
-                            validator:(text){
-                              if(text.toString().isEmpty){
-                                return "Error";
-                              }
-                            } ,
-                            hintText: Constants.nameHint,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          TextForm(
-                            heading: Constants.email,
-                            controller: emailController,
-                            width: 350,
-                            validator:(text){
-                              if(text.toString().isEmpty){
-                                return "Error";
-                              }
-                            },
-                            hintText: Constants.emailHint,
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          TextForm(
-                            heading: Constants.lastName,
-                            controller: lastNameController,
-                            width: 350,
-                            validator:(text){
-                              if(text.toString().isEmpty){
-                                return "Error";
-                              }
-                            },
-                            hintText: Constants.lastNameHint,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          TextForm(
-                            heading: Constants.phoneNum,
-                            width: 350,
-                            validator:(text){
-                              if(text.toString().isEmpty){
-                                return "Error";
-                              }
-                            },
-                            controller: phoneNumberController,
-                            hintText: Constants.phoneNumHint,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  TextForm(
-                    heading: Constants.message,
-                    width: deviceWidth / 1.5,
-                    controller: messageController,
-                    validator:(text){
-                      if(text.toString().isEmpty){
-                        return "Error";
-                      }
-                    },
-                    hintText: Constants.messageHint,
-                    maxLines: 10,
-                  ),
-                  SizedBox(height: 10.0),
-                  MaterialButton(
-                    onPressed: ()
-                    async{
-                      final addData = AddDataFireStore();
-                      if(formKey.currentState!.validate()){
-                        await addData.addResponse(firstNameController.text, lastNameController.text, emailController.text, phoneNumberController.text, messageController.text);
-                        formKey.currentState!.reset();
-                        DailogError(context);
-                      }
-
-                    },
-                    elevation: 20,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    height: 60.0,
-                    minWidth: 200,
-                    color: Colors.tealAccent,
-                    child: SansBold("Submit", 20.0),
-                  ),
-                ],
-              ),
-            ),
+            child:
+           ContactWebSection(deviceWidth: deviceWidth,),
           ),
           SizedBox(height: 20.0),
         ],
@@ -425,20 +287,6 @@ class _LandingPageWebState extends State<LandingPageWeb> {
     );
   }
 
-  urlLancherButtons(String url, String imagePath) {
-    return IconButton(
-      icon: SvgPicture.asset(imagePath),
-      onPressed: () async {
-        await _launchUrl(url); // Add 'await' here
-      },
-    );
-  }
-  Future<void> _launchUrl(String url) async {
-    final Uri _url = Uri.parse(url);
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
-  }
 
 }
 

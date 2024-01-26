@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../component.dart';
+import '../others/component.dart';
 import '../others/Constansts.dart';
 
 class WorksMobile extends StatefulWidget {
@@ -15,54 +12,10 @@ class WorksMobile extends StatefulWidget {
 class _WorksMobileState extends State<WorksMobile> {
   @override
   Widget build(BuildContext context) {
-    var deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      endDrawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DrawerHeader(
-              padding: EdgeInsets.only(bottom: 20.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 2, color: Colors.black),
-                ),
-                child: Image.asset("assests/profileround.png"),
-              ),
-            ),
-            TabsMobileApp(text: "Home", route: '/'),
-            SizedBox(
-              height: 20.0,
-            ),
-            TabsMobileApp(text: "Work", route: '/work'),
-            SizedBox(
-              height: 20.0,
-            ),
-            TabsMobileApp(text: "Blog", route: '/blog'),
-            SizedBox(
-              height: 20.0,
-            ),
-            TabsMobileApp(text: "About", route: '/about'),
-            SizedBox(
-              height: 20.0,
-            ),
-            TabsMobileApp(text: "Contact", route: '/contact'),
-            SizedBox(
-              height: 20.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                urlLancherButtons(Constants.LINKDIN, "assests/linkdin.svg"),
-                urlLancherButtons(Constants.GITHUB, "assests/github.svg"),
-                urlLancherButtons(Constants.MEDIUM, "assests/medium.svg")
-              ],
-            )
-          ],
-        ),
-      ),
+      endDrawer:
+      DrawerMobile(),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext contxt,bool innerBoxScrolled){
           return <Widget>[
@@ -103,8 +56,6 @@ class _WorksMobileState extends State<WorksMobile> {
                       Sans(Constants.portfolioDetails, 12),
                     ],
                   )
-
-
                 ],
               )
 
@@ -114,21 +65,5 @@ class _WorksMobileState extends State<WorksMobile> {
       ),
 
     );
-  }
-
-  urlLancherButtons(String url, String imagePath) {
-    return IconButton(
-      icon: SvgPicture.asset(imagePath),
-      onPressed: () async {
-        await _launchUrl(url); // Add 'await' here
-      },
-    );
-  }
-
-  Future<void> _launchUrl(String url) async {
-    final Uri _url = Uri.parse(url);
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
   }
 }

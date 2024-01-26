@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:my_portfolio/component.dart';
-import 'package:url_launcher/url_launcher.dart';
-
+import 'package:my_portfolio/others/component.dart';
 import '../others/Constansts.dart';
 
 class LandingPageMobile extends StatefulWidget {
@@ -32,51 +29,8 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
           color: Colors.black,
         ),
       ),
-      endDrawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DrawerHeader(
-              padding: EdgeInsets.only(bottom: 20.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 2, color: Colors.black),
-                ),
-                child: Image.asset("assests/profileround.png"),
-              ),
-            ),
-            TabsMobileApp(text: "Home", route: Constants.homeRoutes),
-            SizedBox(
-              height: 20.0,
-            ),
-            TabsMobileApp(text: "Work", route: Constants.worksRoutes),
-            SizedBox(
-              height: 20.0,
-            ),
-            TabsMobileApp(text: "Blog", route: Constants.blogRoutes),
-            SizedBox(
-              height: 20.0,
-            ),
-            TabsMobileApp(text: "About", route: Constants.aboutRoutes),
-            SizedBox(
-              height: 20.0,
-            ),
-            TabsMobileApp(text: "Contact", route: Constants.contactRoutes),
-            SizedBox(
-              height: 20.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                urlLancherButtons(Constants.LINKDIN, "assests/linkdin.svg"),
-                urlLancherButtons(Constants.GITHUB, "assests/github.svg"),
-                urlLancherButtons(Constants.MEDIUM, "assests/medium.svg")
-              ],
-            )
-          ],
-        ),
-      ),
+      endDrawer:
+      DrawerMobile(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: ListView(
@@ -284,133 +238,14 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
             ),
             // Contact me section
             Container(
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SansBold("Contact Me", 40),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: TextForm(
-                        heading: Constants.firstName,
-                        width: deviceWidth / 1.5,
-                        hintText: Constants.nameHint,
-                        controller: firstNameController,
-                        validator:(text){
-                          if(text.toString().isEmpty){
-                            return "Error";
-                          }
-                        } ,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: TextForm(
-                        heading: Constants.lastName,
-                        width: deviceWidth / 1.5,
-                        hintText: Constants.lastNameHint,
-                        controller: lastNameController,
-                        validator:(text){
-                          if(text.toString().isEmpty){
-                            return "Error";
-                          }
-                        } ,
-
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: TextForm(
-                        heading: Constants.phoneNum,
-                        width: deviceWidth / 1.5,
-                        hintText: Constants.phoneNumHint,
-
-                        controller: phoneNumberController,
-                        validator:(text){
-                          if(text.toString().isEmpty){
-                            return "Error";
-                          }
-                        } ,
-
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: TextForm(
-                        heading: Constants.email,
-                        width: deviceWidth / 1.5,
-                        hintText: Constants.emailHint,
-
-                        controller: emailController,
-                        validator:(text){
-                          if(text.toString().isEmpty){
-                            return "Error";
-                          }
-                        } ,
-
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: TextForm(
-                        heading: "Message",
-                        width: deviceWidth / 1.5,
-                        hintText: "Please enter your message",
-                        maxLines: 10,
-                        controller: messageController,
-                        validator:(text){
-                          if(text.toString().isEmpty){
-                            return "Error";
-                          }
-                        } ,
-                      ),
-                    ),
-                    MaterialButton(
-                      onPressed: () async{
-                        final addData = AddDataFireStore();
-                        if(formKey.currentState!.validate()){
-                          await addData.addResponse(firstNameController.text, lastNameController.text, emailController.text, phoneNumberController.text, messageController.text);
-                          formKey.currentState!.reset();
-                          DailogError(context);
-                        }
-                      },
-                      elevation: 20,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      height: 60.0,
-                      minWidth: 200,
-                      color: Colors.tealAccent,
-                      child: SansBold("Submit", 20.0),
-                    ),
-                  ],
-                ),
-              ),
+              child:
+            ContactMobileSection(deviceWidth: deviceWidth,),
             ),
             SizedBox(height: 20.0),
           ],
         ),
       ),
     );
-  }
-
-  urlLancherButtons(String url, String imagePath) {
-    return IconButton(
-      icon: SvgPicture.asset(
-        imagePath,
-        width: 35,
-      ),
-      onPressed: () async {
-        await _launchUrl(url); // Add 'await' here
-      },
-    );
-  }
-  Future<void> _launchUrl(String url) async {
-    final Uri _url = Uri.parse(url);
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
   }
 
 }

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../component.dart';
-import '../others/Constansts.dart';
+import '../others/component.dart';
 
 class ContactWeb extends StatefulWidget {
   const ContactWeb({super.key});
@@ -13,91 +9,18 @@ class ContactWeb extends StatefulWidget {
 }
 
 class _ContactWebState extends State<ContactWeb> {
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController messageController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+
+
   @override
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 75,
-              backgroundColor: Colors.tealAccent,
-              child: CircleAvatar(
-                radius: 72,
-                backgroundColor: Colors.black,
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundColor: Colors.white,
-                  backgroundImage: AssetImage("assests/profile.jpg"),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15.0,
-            ),
-            SansBold("Aditya", 18),
-            SizedBox(
-              height: 15.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                urlLancherButtons(Constants.LINKDIN, "assests/linkdin.svg"),
-                urlLancherButtons(Constants.GITHUB, "assests/github.svg"),
-                urlLancherButtons(Constants.MEDIUM, "assests/medium.svg")
-              ],
-            ),
-          ],
-        ),
-      ),
-      body:
-      NestedScrollView(
+      drawer: DrawerWeb(),
+      body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxScrolled) {
           return <Widget>[
             SliverAppBar(
-              title: Row(
-                children: [
-                  Spacer(
-                    flex: 3,
-                  ),
-                  TabsWeb(
-                    title: "Home",
-                    routes: Constants.homeRoutes,
-                  ),
-                  Spacer(),
-                  TabsWeb(
-                    title: "Works",
-                    routes: Constants.worksRoutes,
-                  ),
-                  Spacer(),
-                  TabsWeb(
-                    title: "Blog",
-                    routes: Constants.blogRoutes,
-                  ),
-                  Spacer(),
-                  TabsWeb(
-                    title: "About",
-                    routes: Constants.aboutRoutes,
-                  ),
-                  Spacer(),
-                  TabsWeb(
-                    title: "Contact",
-                    routes: Constants.contactRoutes,
-                  ),
-                  SizedBox(
-                    width: 30,
-                  )
-                ],
-              ),
+              title: TabsWebList(),
               expandedHeight: 500,
               backgroundColor: Colors.white,
               iconTheme: IconThemeData(
@@ -115,133 +38,10 @@ class _ContactWebState extends State<ContactWeb> {
           ];
         },
         body: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(height: 20,),
-                SansBold("Contact Me", 40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        TextForm(
-                          heading: Constants.firstName,
-                          width: 350,
-                          hintText: Constants.nameHint,
-                          controller: firstNameController,
-                          validator:(text){
-                            if(text.toString().isEmpty){
-                              return "Error";
-                            }
-                          } ,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        TextForm(
-                          heading: Constants.email,
-                          width: 350,
-                          controller: emailController,
-                          hintText: Constants.emailHint,
-                          validator:(text){
-                            if(text.toString().isEmpty){
-                              return "Error";
-                            }
-                          } ,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        TextForm(
-                          controller: lastNameController,
-                          heading: Constants.lastName,
-                          width: 350,
-                          hintText: Constants.lastNameHint,
-                          validator:(text){
-                            if(text.toString().isEmpty){
-                              return "Error";
-                            }
-                          } ,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        TextForm(
-                          controller: phoneNumberController,
-                          heading: Constants.phoneNum,
-                          width: 350,
-                          hintText: Constants.phoneNumHint,
-                          validator:(text){
-                            if(text.toString().isEmpty){
-                              return "Error";
-                            }
-                          } ,
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 15,),
-                TextForm(
-                  controller: messageController,
-                  heading: Constants.message,
-                  width: deviceWidth / 1.5,
-                  hintText: Constants.messageHint,
-                  maxLines: 10,
-                  validator:(text){
-                    if(text.toString().isEmpty){
-                      return "Error";
-                    }
-                  } ,
-                ),
-                SizedBox(height: 20,),
-                MaterialButton(
-                  onPressed: ()
-                  async{
-                    final addData = AddDataFireStore();
-                    if(formKey.currentState!.validate()){
-                      await addData.addResponse(firstNameController.text, lastNameController.text, emailController.text, phoneNumberController.text, messageController.text);
-                      formKey.currentState!.reset();
-                      DailogError(context);
-                    }
-                  },
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  height: 60.0,
-                  minWidth: 200,
-                  color: Colors.tealAccent,
-                  child: SansBold("Submit", 20.0),
-                ),
-                SizedBox(height: 20,),
-
-              ],
-            ),
-          ),
-
+          child:
+         ContactWebSection(deviceWidth: deviceWidth,),
         ),
       ),
     );
-  }
-
-  urlLancherButtons(String url, String imagePath) {
-    return IconButton(
-      icon: SvgPicture.asset(imagePath),
-      onPressed: () async {
-        await _launchUrl(url); // Add 'await' here
-      },
-    );
-  }
-
-  Future<void> _launchUrl(String url) async {
-    final Uri _url = Uri.parse(url);
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
   }
 }

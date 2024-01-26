@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../component.dart';
+import '../others/component.dart';
 import '../others/Constansts.dart';
 
 class AboutWeb extends StatefulWidget {
@@ -16,42 +13,8 @@ class _AboutWebState extends State<AboutWeb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 75,
-              backgroundColor: Colors.tealAccent,
-              child: CircleAvatar(
-                radius: 72,
-                backgroundColor: Colors.black,
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundColor: Colors.white,
-                  backgroundImage: AssetImage("assests/profile.jpg"),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 15.0,
-            ),
-            SansBold("Aditya", 18),
-            SizedBox(
-              height: 15.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                urlLancherButtons(Constants.LINKDIN, "assests/linkdin.svg"),
-                urlLancherButtons(Constants.GITHUB, "assests/github.svg"),
-                urlLancherButtons(Constants.MEDIUM, "assests/medium.svg")
-              ],
-            ),
-          ],
-        ),
-      ),
+      drawer:
+     DrawerWeb(),
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -60,40 +23,8 @@ class _AboutWebState extends State<AboutWeb> {
           color: Colors.black,
         ),
         elevation: 0.0,
-        title: Row(
-          children: [
-            Spacer(
-              flex: 3,
-            ),
-            TabsWeb(
-              title: "Home",
-              routes: Constants.homeRoutes,
-            ),
-            Spacer(),
-            TabsWeb(
-              title: "Works",
-              routes: Constants.worksRoutes,
-            ),
-            Spacer(),
-            TabsWeb(
-              title: "Blog",
-              routes: Constants.blogRoutes,
-            ),
-            Spacer(),
-            TabsWeb(
-              title: "About",
-              routes: Constants.aboutRoutes,
-            ),
-            Spacer(),
-            TabsWeb(
-              title: "Contact",
-              routes: Constants.contactRoutes,
-            ),
-            SizedBox(
-              width: 30,
-            )
-          ],
-        ),
+        title:
+      TabsWebList(),
       ),
       body: ListView(
         children: [
@@ -205,21 +136,5 @@ class _AboutWebState extends State<AboutWeb> {
         ],
       ),
     );
-  }
-
-  urlLancherButtons(String url, String imagePath) {
-    return IconButton(
-      icon: SvgPicture.asset(imagePath),
-      onPressed: () async {
-        await _launchUrl(url); // Add 'await' here
-      },
-    );
-  }
-
-  Future<void> _launchUrl(String url) async {
-    final Uri _url = Uri.parse(url);
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
   }
 }

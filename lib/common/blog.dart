@@ -1,89 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_portfolio/others/Constansts.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../component.dart';
+import '../others/Constansts.dart';
+import '../others/component.dart';
 
-class BlogMobile extends StatefulWidget {
-  const BlogMobile({super.key});
+class Blog extends StatefulWidget {
+  const Blog({super.key});
 
   @override
-  State<BlogMobile> createState() => _BlogMobileState();
+  State<Blog> createState() => _BlogState();
 }
 
-class _BlogMobileState extends State<BlogMobile> {
+class _BlogState extends State<Blog> {
   @override
   Widget build(BuildContext context) {
-    var deviceWidth = MediaQuery.of(context).size.width;
-
+    bool isWeb  = MediaQuery.of(context).size.width > 800;
     return SafeArea(
       child: Scaffold(
-        endDrawer: Drawer(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              DrawerHeader(
-                padding: EdgeInsets.only(bottom: 20.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 2, color: Colors.black),
-                  ),
-                  child: Image.asset("assests/profileround.png"),
-                ),
-              ),
-              TabsMobileApp(text: "Home", route: Constants.homeRoutes),
-              SizedBox(
-                height: 20.0,
-              ),
-              TabsMobileApp(text: "Work", route: Constants.worksRoutes),
-              SizedBox(
-                height: 20.0,
-              ),
-              TabsMobileApp(text: "Blog", route: Constants.blogRoutes),
-              SizedBox(
-                height: 20.0,
-              ),
-              TabsMobileApp(text: "About", route: Constants.aboutRoutes),
-              SizedBox(
-                height: 20.0,
-              ),
-              TabsMobileApp(text: "Contact", route: Constants.contactRoutes),
-              SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  urlLancherButtons(Constants.LINKDIN, "assests/linkdin.svg"),
-                  urlLancherButtons(Constants.GITHUB, "assests/github.svg"),
-                  urlLancherButtons(Constants.MEDIUM, "assests/medium.svg")
-                ],
-              )
-            ],
-          ),
-        ),
+        endDrawer:
+        DrawerMobile(),
         body: NestedScrollView(
             headerSliverBuilder: (BuildContext contxt, bool innerBoxScrolled) {
               return <Widget>[
                 SliverAppBar(
-                  expandedHeight: 400,
+                  expandedHeight:isWeb?500:400,
                   backgroundColor: Colors.white,
                   iconTheme: IconThemeData(size: 35, color: Colors.black),
                   flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
+                    centerTitle: isWeb?false:true,
                     title: Container(
                       decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(3),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 4),
+                      padding: EdgeInsets.symmetric(horizontal:isWeb?7.0:4.0),
                       child: AbleCustom(
                         text: Constants.welcomeBlog,
-                        size: 24,
+                        size: isWeb?30.0:24.0,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -105,7 +59,7 @@ class _BlogMobileState extends State<BlogMobile> {
                     return ListView.builder(itemCount: snapshot.data?.docs.length,
                         itemBuilder: (BuildContext context, int index) {
                           DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
-                          return BlogPost(title: documentSnapshot["title"], body: documentSnapshot["body"]);
+                          return BlogPost(title: documentSnapshot["title"], body: documentSnapshot["body"],isWeb: isWeb,);
                         });
                   }
                   else{
@@ -120,28 +74,14 @@ class _BlogMobileState extends State<BlogMobile> {
       ),
     );
   }
-
-  urlLancherButtons(String url, String imagePath) {
-    return IconButton(
-      icon: SvgPicture.asset(imagePath),
-      onPressed: () async {
-        await _launchUrl(url); // Add 'await' here
-      },
-    );
-  }
-
-  Future<void> _launchUrl(String url) async {
-    final Uri _url = Uri.parse(url);
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
-  }
 }
+
 
 class BlogPost extends StatefulWidget {
   final title;
   final body;
-  const BlogPost({super.key, @required this.title,@required this.body});
+  final isWeb;
+  const BlogPost({super.key, @required this.title,@required this.body,@required this.isWeb});
 
   @override
   State<BlogPost> createState() => _BlogPostState();
@@ -153,7 +93,11 @@ class _BlogPostState extends State<BlogPost> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
+      padding: widget.isWeb?EdgeInsets.only(
+        left: 70,
+        right: 70,
+        top: 40,
+      ):EdgeInsets.only(
         left: 20,
         right: 20,
         top: 30,
