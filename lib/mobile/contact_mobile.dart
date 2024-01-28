@@ -15,29 +15,31 @@ class _ContactMobileState extends State<ContactMobile> {
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      endDrawer:
-      DrawerMobile(),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext contxt, bool innerBoxScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              expandedHeight: 400,
-              backgroundColor: Colors.white,
-              iconTheme: IconThemeData(size: 35, color: Colors.black),
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(
-                  'assests/contact_image.jpg',
-                  fit: BoxFit.cover,
+    return SafeArea(
+      child: Scaffold(
+        endDrawer:
+        DrawerMobile(),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext contxt, bool innerBoxScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                expandedHeight: 400,
+                backgroundColor: Colors.white,
+                iconTheme: IconThemeData(size: 35, color: Colors.black),
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Image.asset(
+                    'assests/contact_image.jpg',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-            )
-          ];
-        },
-        body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(vertical: 25.0),
-          child:
-        ContactMobileSection(deviceWidth: deviceWidth,),
+              )
+            ];
+          },
+          body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(vertical: 25.0),
+            child:
+          ContactMobileSection(deviceWidth: deviceWidth,),
+          ),
         ),
       ),
     );
